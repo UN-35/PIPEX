@@ -2,7 +2,7 @@ NAME= pipex
 
 CFLAGS= -Wall -Wextra -Werror 
 
-SRC= ft_split.c ft_strjoin.c ft_strlen.c ft_strncmp.c get_path.c main.c
+SRC= ft_split.c ft_strjoin.c ft_strrchr.c ft_strlen.c ft_strncmp.c get_path.c main.c
 
 OBJ= $(SRC:.c=.o)
 

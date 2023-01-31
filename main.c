@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 02:15:28 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/01/30 03:18:45 by yoelansa         ###   ########.fr       */
+/*   Updated: 2023/01/31 19:13:06 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	child_p(char *args[5], int fds[2], char **x)
 	cmd_with_args = ft_split(args[2], ' ');
 	path = cmd_path(_paths(x), cmd_with_args[0]);
 	fd = open(args[1], O_RDONLY);
+	if (fd == -1)
+		error_check(1, args[1]);
 	dup2(fd, 0);
 	dup2(fds[1], 1);
 	close(fd);
@@ -53,21 +55,12 @@ int	main(int ac, char *av[], char *x[])
 	int		frk;
 
 	if (ac != 5)
-	{
-		write (2, "ERROR: Unvalid number of arguments\n", 36);
-		return (1);
-	}
+		error_check (4, NULL);
 	if (pipe(fds) == -1)
-	{
-		write(2, "ERROR: Unable to create pipe\n", 30);
-		return (1);
-	}
+		error_check (5, NULL);
 	frk = fork();
 	if (frk == -1)
-	{
-		write(2, "ERROR: Unable to create child process\n", 39);
-		return (1);
-	}
+		error_check(6, NULL);
 	if (frk == 0)
 		child_p(av, fds, x);
 	forking(av, fds, x);
