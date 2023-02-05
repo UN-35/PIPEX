@@ -36,18 +36,26 @@ void	forking(char *args[5], int fds[2], char **x)
 	char	**cmd_with_args;
 	char	*path;
 	int		fd;
+	int		p;
 
-	wait(NULL);
-	cmd_with_args = ft_split(args[3], ' ');
-	path = cmd_path(_paths(x), cmd_with_args[0]);
-	fd = open (args[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
-	dup2(fd, 1);
-	dup2(fds[0], 0);
+	fd = 0;
+	p = fork();
+	if (p == 0)
+	{
+		cmd_with_args = ft_split(args[3], ' ');
+		path = cmd_path(_paths(x), cmd_with_args[0]);
+		fd = open (args[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
+		dup2(fd, 1);
+		dup2(fds[0], 0);
+		execve(path, cmd_with_args, x);
+	}
 	close(fd);
 	close(fds[0]);
 	close(fds[1]);
-	execve(path, cmd_with_args, x);
+	wait(NULL);
+	wait(NULL);
 }
+
 
 int	main(int ac, char *av[], char *x[])
 {
