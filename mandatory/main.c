@@ -6,7 +6,7 @@
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 02:15:28 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/01/31 19:13:06 by yoelansa         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:27:24 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	child_p(char *args[5], int fds[2], char **x)
 	char	*path;
 	int		fd;
 
-	cmd_with_args = ft_split(args[2], ' ');
-	path = cmd_path(_paths(x), cmd_with_args[0]);
 	fd = open(args[1], O_RDONLY);
 	if (fd == -1)
 		error_check(1, args[1]);
@@ -28,6 +26,8 @@ void	child_p(char *args[5], int fds[2], char **x)
 	close(fd);
 	close(fds[0]);
 	close(fds[1]);
+	cmd_with_args = ft_split(args[2], ' ');
+	path = cmd_path(_paths(x), cmd_with_args[0], 0);
 	execve(path, cmd_with_args, x);
 }
 
@@ -43,10 +43,11 @@ void	forking(char *args[5], int fds[2], char **x)
 	if (p == 0)
 	{
 		cmd_with_args = ft_split(args[3], ' ');
-		path = cmd_path(_paths(x), cmd_with_args[0]);
+		path = cmd_path(_paths(x), cmd_with_args[0], 0);
 		fd = open (args[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
 		dup2(fd, 1);
 		dup2(fds[0], 0);
+		close (fds[1]);
 		execve(path, cmd_with_args, x);
 	}
 	close(fd);
@@ -55,7 +56,6 @@ void	forking(char *args[5], int fds[2], char **x)
 	wait(NULL);
 	wait(NULL);
 }
-
 
 int	main(int ac, char *av[], char *x[])
 {

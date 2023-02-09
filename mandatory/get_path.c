@@ -6,35 +6,11 @@
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 03:17:34 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/01/31 19:11:41 by yoelansa         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:29:30 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-char	*_path(char **p)
-{
-	int	i;
-
-	i = 0;
-	while (p[i])
-	{
-		if (ft_strncmp(p[i], "PATH=", 5) == 0)
-		{
-			return (p[i] + 5);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-char	**_paths(char **p)
-{
-	char	**paths;
-
-	paths = ft_split(_path(p), ':');
-	return (paths);
-}
 
 char	*error_check(int a, char *str)
 {
@@ -61,9 +37,45 @@ char	*error_check(int a, char *str)
 	exit(1);
 }
 
-char	*cmd_path(char **paths, char *cmd)
+char	*_path(char **p)
 {
-	int		i;
+	int	i;
+
+	i = 0;
+	while (p[i])
+	{
+		if (ft_strncmp(p[i], "PATH=", 5) == 0)
+		{
+			return (p[i] + 5);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	**_paths(char **p)
+{
+	char	**paths;
+
+	paths = ft_split(_path(p), ':');
+	return (paths);
+}
+
+void	free_paths(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		free(s[i]);
+		i++;
+	}
+	free(s);
+}
+
+char	*cmd_path(char **paths, char *cmd, int i)
+{
 	char	*cmd_with_path;
 	char	*tmp;
 
@@ -73,16 +85,18 @@ char	*cmd_path(char **paths, char *cmd)
 		return (cmd);
 	else if (ft_strrchr(cmd, '/') == 1)
 		error_check(7, NULL);
-	i = 0;
-	while (paths[i])
+	while (paths[++i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		cmd_with_path = ft_strjoin(tmp, cmd);
 		if (!access(cmd_with_path, X_OK))
+		{
+			free_paths(paths);
+			free(tmp);
 			return (cmd_with_path);
+		}
 		free(tmp);
 		free(cmd_with_path);
-		i++;
 	}
 	error_check (3, cmd);
 	return (NULL);

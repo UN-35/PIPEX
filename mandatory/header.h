@@ -6,7 +6,7 @@
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 02:19:28 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/01/31 19:12:25 by yoelansa         ###   ########.fr       */
+/*   Updated: 2023/02/09 17:26:59 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(const char *str);
-char	*cmd_path(char **paths, char *cmd);
+char	*cmd_path(char **paths, char *cmd, int i);
 char	**_paths(char **p);
 int		ft_strrchr(const char *s, int c);
+void	free_paths(char **s);
 
 #endif
