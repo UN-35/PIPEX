@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 15:31:53 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/01/31 18:54:06 by yoelansa         ###   ########.fr       */
+/*   Created: 2023/01/30 02:19:52 by yoelansa          #+#    #+#             */
+/*   Updated: 2023/02/05 15:09:18 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	ft_strrchr(const char *s, int c)
+size_t	ft_strlen(const char *str)
 {
-	int		i;
-	char	*str;
+	size_t	i;
 
-	str = (char *) s;
-	i = ft_strlen(str);
-	while (str[i] != (char) c)
-	{
-		if (i == 0)
-			return (0);
-		i--;
-	}
-	return (1);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }

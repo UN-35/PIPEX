@@ -6,7 +6,7 @@
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 02:15:28 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/02/09 17:27:24 by yoelansa         ###   ########.fr       */
+/*   Updated: 2023/02/17 23:52:31 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ void	child_p(char *args[5], int fds[2], char **x)
 	char	*path;
 	int		fd;
 
+	if (access(args[1], F_OK))
+		error_check(1, args[1]);
 	fd = open(args[1], O_RDONLY);
 	if (fd == -1)
-		error_check(1, args[1]);
+		error_check(8, NULL);
 	dup2(fd, 0);
 	dup2(fds[1], 1);
 	close(fd);
@@ -42,9 +44,11 @@ void	forking(char *args[5], int fds[2], char **x)
 	p = fork();
 	if (p == 0)
 	{
+		fd = open (args[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
+		if (fd == -1)
+			error_check (8, NULL);
 		cmd_with_args = ft_split(args[3], ' ');
 		path = cmd_path(_paths(x), cmd_with_args[0], 0);
-		fd = open (args[4], O_WRONLY | O_CREAT | O_TRUNC, 0755);
 		dup2(fd, 1);
 		dup2(fds[0], 0);
 		close (fds[1]);

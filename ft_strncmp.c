@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/30 02:19:52 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/01/30 02:20:11 by yoelansa         ###   ########.fr       */
+/*   Created: 2023/01/30 02:19:56 by yoelansa          #+#    #+#             */
+/*   Updated: 2023/02/05 15:09:21 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i])
+	if (n == 0)
+		return (0);
+	while ((s1[i] || s2[i]) && (s1[i] == s2[i]) && i < n - 1)
 		i++;
-	return (i);
+	return (((unsigned char)s1[i] - (unsigned char)s2[i]));
 }

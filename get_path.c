@@ -6,7 +6,7 @@
 /*   By: yoelansa <yoelansa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 03:17:34 by yoelansa          #+#    #+#             */
-/*   Updated: 2023/02/09 17:29:30 by yoelansa         ###   ########.fr       */
+/*   Updated: 2023/02/17 23:49:47 by yoelansa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*error_check(int a, char *str)
 		write(2, "ERROR: Unable to create child process.\n", 40);
 	if (a == 7)
 		write (2, "ERROR: Unvalid command.\n", 25);
+	if (a == 8)
+		write (2, "ERROR: Permission denied\n", 26);
 	exit(1);
 }
 
